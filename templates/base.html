@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Spam Classifier{% endblock %}</title>
+
+    {% load bootstrap4 %}
+    {% load static %}
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+
+    <style>
+        body {
+            padding-top: 56px; /* Adjust for fixed-top navbar */
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">SMS Spam Classifier.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'classify_email' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'classify_email' %}">Classify Email</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% bootstrap_messages %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="text-center mt-5 mb-3 text-muted">
+        <small>&copy; 2025 SMS Spam Classifier. All rights reserved.</small>
+    </footer>
+</body>
+</html>

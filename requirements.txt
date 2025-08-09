@@ -1,0 +1,17 @@
+Django
+djangorestframework
+django-crispy-forms
+crispy-bootstrap4
+django-bootstrap4
+psycopg2-binary
+dj-database-url
+python-decouple
+whitenoise
+sentence-transformers
+scikit-learn
+numpy
+nltk
+pandas
+optuna
+xgboost
+imbalanced-learn

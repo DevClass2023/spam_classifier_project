@@ -1,0 +1,91 @@
+/* Base layout */
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #343a40;
+    padding: 0.8rem 1rem;
+}
+.navbar-brand {
+    font-weight: bold;
+    color: #ffffff !important;
+    font-size: 1.5rem;
+}
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    margin-right: 1rem;
+}
+.navbar-nav .nav-link:hover {
+    text-decoration: underline;
+}
+
+/* Card enhancements */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #343a40;
+    margin-bottom: 1rem;
+}
+
+/* Buttons */
+button, .btn {
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Forms and inputs */
+textarea, input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+/* Feedback and result */
+#result {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.alert {
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+/* Responsive container */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem 1rem;
+}
+
+/* Footer (optional) */
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+}

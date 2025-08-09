@@ -1,0 +1,15 @@
+
+# Virtual environment
+/venv/
+
+# Environment variables and sensitive data
+.env
+db.sqlite3
+/etc/postfix/sasl_passwd
+/etc/postfix/sasl_passwd.db
+
+# Other temporary files
+__pycache__/
+*.pyc
+/media/
+/static/

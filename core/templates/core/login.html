@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %} {# Load crispy forms tags #}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0 text-center">Login</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {# Using crispy forms to render the form nicely #}
+                    {{ form|crispy }}
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </div>
+                </form>
+                <hr>
+                <p class="text-center mb-0">
+                    Don't have an account?
+                    <a href="{% url 'register' %}" class="text-decoration-none">Register here</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
