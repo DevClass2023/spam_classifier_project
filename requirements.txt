@@ -15,3 +15,10 @@ pandas
 optuna
 xgboost
 imbalanced-learn
+
+
+#From the root directory of your project (where manage.py is located), run the following command to automatically generate the file
+# pip freeze > requirements.txt
+# python manange.py makemigrations
+# python manage.py migrate
+# python manage.py runserver
