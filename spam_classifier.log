@@ -1,0 +1,781 @@
+2025-08-09 14:47:53,513 - INFO - NLTK punkt resource found.
+2025-08-09 14:47:53,514 - INFO - NLTK stopwords resource found.
+2025-08-09 14:47:53,515 - INFO - NLTK punkt_tab resource found.
+2025-08-09 14:47:53,518 - INFO - Initialized all individual and ensemble classifiers.
+2025-08-09 14:47:53,519 - INFO - SpamClassifier initialized successfully.
+2025-08-09 14:47:53,520 - INFO - 
+--- Starting Pipeline Step: Data Loading ---
+2025-08-09 14:47:53,533 - INFO - Loaded 5572 records from /home/dev/spam_classifier_project/spam.csv.
+2025-08-09 14:47:53,534 - INFO - --- Completed Pipeline Step: Data Loading ---
+
+2025-08-09 14:47:53,535 - INFO - 
+--- Starting Pipeline Step: Data Cleaning ---
+2025-08-09 14:47:53,540 - INFO - Selected 'v1' and 'v2' columns from the dataset.
+2025-08-09 14:47:53,757 - INFO - Cleaned dataset. Removed 403 duplicates/nulls. Remaining: 5169 records.
+2025-08-09 14:47:53,759 - INFO - --- Completed Pipeline Step: Data Cleaning ---
+
+2025-08-09 14:47:53,760 - INFO - 
+--- Starting Pipeline Step: EDA and Feature Engineering ---
+2025-08-09 14:47:54,457 - INFO - Set XGBoost scale_pos_weight to: 6.92 (Ham:4516, Spam:653)
+2025-08-09 14:47:54,578 - INFO - Target distribution plot saved to /home/dev/spam_classifier_project/plots/target_distribution_20250809_144754.png.
+2025-08-09 14:47:55,113 - INFO - Word count distribution plot saved to /home/dev/spam_classifier_project/plots/word_count_distribution_20250809_144754.png.
+2025-08-09 14:47:55,528 - INFO - Character count distribution plot saved to /home/dev/spam_classifier_project/plots/char_count_distribution_20250809_144754.png.
+2025-08-09 14:47:55,744 - INFO - Correlation heatmap plot saved to /home/dev/spam_classifier_project/plots/correlation_heatmap_20250809_144754.png.
+2025-08-09 14:47:55,755 - INFO - Descriptive statistics for Ham emails:
+         num_chars    num_words  num_sentences
+count  4516.000000  4516.000000    4516.000000
+mean     70.459256    13.908769       1.820195
+std      56.358207    10.835081       1.383657
+min       2.000000     0.000000       1.000000
+25%      34.000000     7.000000       1.000000
+50%      52.000000    10.500000       1.000000
+75%      90.000000    18.000000       2.000000
+max     910.000000   162.000000      38.000000
+2025-08-09 14:47:55,765 - INFO - Descriptive statistics for Spam emails:
+        num_chars   num_words  num_sentences
+count  653.000000  653.000000     653.000000
+mean   137.891271   22.166922       2.970904
+std     30.137753    5.926027       1.488425
+min     13.000000    1.000000       1.000000
+25%    132.000000   19.000000       2.000000
+50%    149.000000   24.000000       3.000000
+75%    157.000000   26.000000       4.000000
+max    224.000000   34.000000       9.000000
+2025-08-09 14:47:55,765 - INFO - --- Completed Pipeline Step: EDA and Feature Engineering ---
+
+2025-08-09 14:47:55,765 - INFO - 
+--- Starting Pipeline Step: Text Preprocessing for EDA ---
+2025-08-09 14:47:55,766 - INFO - 
+--- Text Preprocessing for EDA and Visualizations ---
+2025-08-09 14:47:57,671 - INFO - Text transformation for EDA complete. Example:
+2025-08-09 14:47:57,673 - INFO - 
+                                                                                                                                                          text                                                                                                               transformed_text
+0                                              Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...                                                       go jurong point crazi avail bugi great world la buffet cine got amor wat
+1                                                                                                                                Ok lar... Joking wif u oni...                                                                                                            ok lar joke wif oni
+2  Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's  free entri 2 wkli comp win fa cup final tkt 21st may text fa 87121 receiv entri question std txt rate appli 08452810075over18
+3                                                                                                            U dun say so early hor... U c already then say...                                                                                                  dun say earli hor alreadi say
+4                                                                                                Nah I don't think he goes to usf, he lives around here though                                                                                           nah think goe usf live around though
+2025-08-09 14:47:57,674 - INFO - 
+Generating Word Clouds (saved to plots directory):
+2025-08-09 14:47:58,355 - INFO - Spam word cloud saved to /home/dev/spam_classifier_project/plots/spam_wordcloud_20250809_144757.png.
+2025-08-09 14:47:59,447 - INFO - Ham word cloud saved to /home/dev/spam_classifier_project/plots/ham_wordcloud_20250809_144757.png.
+2025-08-09 14:47:59,450 - INFO - 
+Most common words in Spam (saved as plot):
+2025-08-09 14:47:59,950 - INFO - Plot 'Top 30 Spam Words' saved to /home/dev/spam_classifier_project/plots/top_spam_words_20250809_144757.png.
+2025-08-09 14:47:59,950 - INFO - 
+Most common words in Ham (saved as plot):
+2025-08-09 14:48:00,433 - INFO - Plot 'Top 30 Ham Words' saved to /home/dev/spam_classifier_project/plots/top_ham_words_20250809_144757.png.
+2025-08-09 14:48:00,435 - INFO - --- Completed Pipeline Step: Text Preprocessing for EDA ---
+
+2025-08-09 14:48:00,435 - INFO - 
+--- Starting Pipeline Step: Text Vectorization (Embeddings) ---
+2025-08-09 14:48:00,436 - INFO - 
+--- Text Vectorization (SentenceTransformer: all-MiniLM-L6-v2) ---
+2025-08-09 14:48:00,918 - INFO - Use pytorch device_name: cpu
+2025-08-09 14:48:00,918 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-09 14:48:37,566 - INFO - SentenceTransformer embedding complete. X shape: (5169, 384), Y shape: (5169,).
+2025-08-09 14:48:37,567 - INFO - --- Completed Pipeline Step: Text Vectorization (Embeddings) ---
+
+2025-08-09 14:48:37,568 - INFO - 
+--- Starting Pipeline Step: Data Splitting ---
+2025-08-09 14:48:37,577 - INFO - Data split: Train 4135 samples, Test 1034 samples.
+2025-08-09 14:48:37,578 - INFO - Train target distribution: [3613  522]
+2025-08-09 14:48:37,579 - INFO - Test target distribution: [903 131]
+2025-08-09 14:48:37,580 - INFO - --- Completed Pipeline Step: Data Splitting ---
+
+2025-08-09 14:48:37,581 - INFO - 
+--- Starting Pipeline Step: Hyperparameter Tuning ---
+2025-08-09 14:48:37,583 - INFO - Starting hyperparameter tuning with Optuna for selected models...
+2025-08-09 14:48:37,584 - INFO - Tuning LR model with 15 trials...
+2025-08-09 14:49:05,039 - INFO - Best parameters for LR: {'C': 9.877700294007917, 'solver': 'liblinear'}
+2025-08-09 14:49:05,041 - INFO - Best cross-validated F1-score for LR: 0.9358
+2025-08-09 14:49:05,042 - INFO - Tuning RF model with 15 trials...
+2025-08-09 14:54:09,900 - INFO - Best parameters for RF: {'n_estimators': 258, 'max_depth': 7, 'min_samples_split': 5, 'min_samples_leaf': 2}
+2025-08-09 14:54:09,901 - INFO - Best cross-validated F1-score for RF: 0.9171
+2025-08-09 14:54:09,903 - INFO - Tuning XGB model with 15 trials...
+2025-08-09 14:59:39,412 - INFO - Best parameters for XGB: {'n_estimators': 102, 'max_depth': 7, 'learning_rate': 0.2197325710169943, 'subsample': 0.610547233762323, 'colsample_bytree': 0.7874820875551369, 'gamma': 6.7169034639277175e-06}
+2025-08-09 14:59:39,413 - INFO - Best cross-validated F1-score for XGB: 0.9265
+2025-08-09 14:59:39,415 - INFO - Tuning SVC model with 15 trials...
+2025-08-09 15:22:30,606 - INFO - Best parameters for SVC: {'C': 64.64947866087911, 'gamma': 0.024218157448679556, 'kernel': 'sigmoid'}
+2025-08-09 15:22:30,607 - INFO - Best cross-validated F1-score for SVC: 0.9425
+2025-08-09 15:22:30,609 - INFO - Tuning ETC model with 15 trials...
+2025-08-09 15:23:47,654 - INFO - Best parameters for ETC: {'n_estimators': 258, 'max_depth': 7, 'min_samples_split': 5, 'min_samples_leaf': 2}
+2025-08-09 15:23:47,656 - INFO - Best cross-validated F1-score for ETC: 0.9192
+2025-08-09 15:23:47,657 - INFO - Hyperparameter tuning completed for all selected models.
+2025-08-09 15:23:47,658 - INFO - --- Completed Pipeline Step: Hyperparameter Tuning ---
+
+2025-08-09 15:23:47,659 - INFO - 
+--- Starting Pipeline Step: Final Model Training & Evaluation ---
+2025-08-09 15:23:47,660 - INFO - Applying SMOTE to the entire training data for final model training...
+2025-08-09 15:23:47,734 - INFO - SMOTE applied. Original train: 4135 samples. Resampled train: 7226 samples.
+2025-08-09 15:23:47,735 - INFO - Training final LR model on resampled data and evaluating...
+2025-08-09 15:23:48,590 - INFO - 
+--- Performance for LR ---
+2025-08-09 15:23:48,591 - INFO - Accuracy: 0.9787
+2025-08-09 15:23:48,591 - INFO - Precision (Spam): 0.8978
+2025-08-09 15:23:48,592 - INFO - Recall (Spam): 0.9389
+2025-08-09 15:23:48,592 - INFO - F1-Score (Spam): 0.9179
+2025-08-09 15:23:48,600 - INFO - 
+Full Classification Report for LR:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.98      0.99       903
+        spam       0.90      0.94      0.92       131
+
+    accuracy                           0.98      1034
+   macro avg       0.94      0.96      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:23:48,602 - INFO - 
+Raw Confusion Matrix for LR:
+[[889  14]
+ [  8 123]]
+2025-08-09 15:23:48,712 - INFO - Confusion matrix plot for LR saved to /home/dev/spam_classifier_project/plots/confusion_matrix_LR_20250809_152347.png.
+2025-08-09 15:23:48,713 - INFO - Training final RF model on resampled data and evaluating...
+2025-08-09 15:23:53,258 - INFO - 
+--- Performance for RF ---
+2025-08-09 15:23:53,259 - INFO - Accuracy: 0.9826
+2025-08-09 15:23:53,260 - INFO - Precision (Spam): 0.9593
+2025-08-09 15:23:53,260 - INFO - Recall (Spam): 0.9008
+2025-08-09 15:23:53,261 - INFO - F1-Score (Spam): 0.9291
+2025-08-09 15:23:53,267 - INFO - 
+Full Classification Report for RF:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.96      0.90      0.93       131
+
+    accuracy                           0.98      1034
+   macro avg       0.97      0.95      0.96      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:23:53,269 - INFO - 
+Raw Confusion Matrix for RF:
+[[898   5]
+ [ 13 118]]
+2025-08-09 15:23:53,369 - INFO - Confusion matrix plot for RF saved to /home/dev/spam_classifier_project/plots/confusion_matrix_RF_20250809_152347.png.
+2025-08-09 15:23:53,370 - INFO - Training final XGB model on resampled data and evaluating...
+2025-08-09 15:24:00,865 - INFO - 
+--- Performance for XGB ---
+2025-08-09 15:24:00,866 - INFO - Accuracy: 0.9845
+2025-08-09 15:24:00,867 - INFO - Precision (Spam): 0.9389
+2025-08-09 15:24:00,867 - INFO - Recall (Spam): 0.9389
+2025-08-09 15:24:00,868 - INFO - F1-Score (Spam): 0.9389
+2025-08-09 15:24:00,875 - INFO - 
+Full Classification Report for XGB:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.94      0.94      0.94       131
+
+    accuracy                           0.98      1034
+   macro avg       0.97      0.97      0.97      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:24:00,878 - INFO - 
+Raw Confusion Matrix for XGB:
+[[895   8]
+ [  8 123]]
+2025-08-09 15:24:00,965 - INFO - Confusion matrix plot for XGB saved to /home/dev/spam_classifier_project/plots/confusion_matrix_XGB_20250809_152347.png.
+2025-08-09 15:24:00,966 - INFO - Training final SVC model on resampled data and evaluating...
+2025-08-09 15:24:08,309 - INFO - 
+--- Performance for SVC ---
+2025-08-09 15:24:08,310 - INFO - Accuracy: 0.9855
+2025-08-09 15:24:08,311 - INFO - Precision (Spam): 0.9394
+2025-08-09 15:24:08,311 - INFO - Recall (Spam): 0.9466
+2025-08-09 15:24:08,312 - INFO - F1-Score (Spam): 0.9430
+2025-08-09 15:24:08,318 - INFO - 
+Full Classification Report for SVC:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.94      0.95      0.94       131
+
+    accuracy                           0.99      1034
+   macro avg       0.97      0.97      0.97      1034
+weighted avg       0.99      0.99      0.99      1034
+
+2025-08-09 15:24:08,320 - INFO - 
+Raw Confusion Matrix for SVC:
+[[895   8]
+ [  7 124]]
+2025-08-09 15:24:08,405 - INFO - Confusion matrix plot for SVC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_SVC_20250809_152347.png.
+2025-08-09 15:24:08,405 - INFO - Training final KN model on resampled data and evaluating...
+2025-08-09 15:24:08,519 - INFO - 
+--- Performance for KN ---
+2025-08-09 15:24:08,519 - INFO - Accuracy: 0.7611
+2025-08-09 15:24:08,520 - INFO - Precision (Spam): 0.3466
+2025-08-09 15:24:08,520 - INFO - Recall (Spam): 1.0000
+2025-08-09 15:24:08,521 - INFO - F1-Score (Spam): 0.5147
+2025-08-09 15:24:08,528 - INFO - 
+Full Classification Report for KN:
+              precision    recall  f1-score   support
+
+         ham       1.00      0.73      0.84       903
+        spam       0.35      1.00      0.51       131
+
+    accuracy                           0.76      1034
+   macro avg       0.67      0.86      0.68      1034
+weighted avg       0.92      0.76      0.80      1034
+
+2025-08-09 15:24:08,529 - INFO - 
+Raw Confusion Matrix for KN:
+[[656 247]
+ [  0 131]]
+2025-08-09 15:24:08,618 - INFO - Confusion matrix plot for KN saved to /home/dev/spam_classifier_project/plots/confusion_matrix_KN_20250809_152347.png.
+2025-08-09 15:24:08,618 - INFO - Training final AdaBoost model on resampled data and evaluating...
+2025-08-09 15:24:56,595 - INFO - 
+--- Performance for AdaBoost ---
+2025-08-09 15:24:56,596 - INFO - Accuracy: 0.9758
+2025-08-09 15:24:56,596 - INFO - Precision (Spam): 0.8681
+2025-08-09 15:24:56,596 - INFO - Recall (Spam): 0.9542
+2025-08-09 15:24:56,597 - INFO - F1-Score (Spam): 0.9091
+2025-08-09 15:24:56,604 - INFO - 
+Full Classification Report for AdaBoost:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.98      0.99       903
+        spam       0.87      0.95      0.91       131
+
+    accuracy                           0.98      1034
+   macro avg       0.93      0.97      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:24:56,605 - INFO - 
+Raw Confusion Matrix for AdaBoost:
+[[884  19]
+ [  6 125]]
+2025-08-09 15:24:56,697 - INFO - Confusion matrix plot for AdaBoost saved to /home/dev/spam_classifier_project/plots/confusion_matrix_AdaBoost_20250809_152347.png.
+2025-08-09 15:24:56,698 - INFO - Training final BgC model on resampled data and evaluating...
+2025-08-09 15:27:03,030 - INFO - 
+--- Performance for BgC ---
+2025-08-09 15:27:03,031 - INFO - Accuracy: 0.9787
+2025-08-09 15:27:03,031 - INFO - Precision (Spam): 0.9291
+2025-08-09 15:27:03,032 - INFO - Recall (Spam): 0.9008
+2025-08-09 15:27:03,033 - INFO - F1-Score (Spam): 0.9147
+2025-08-09 15:27:03,040 - INFO - 
+Full Classification Report for BgC:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.93      0.90      0.91       131
+
+    accuracy                           0.98      1034
+   macro avg       0.96      0.95      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:27:03,043 - INFO - 
+Raw Confusion Matrix for BgC:
+[[894   9]
+ [ 13 118]]
+2025-08-09 15:27:03,135 - INFO - Confusion matrix plot for BgC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_BgC_20250809_152347.png.
+2025-08-09 15:27:03,135 - INFO - Training final ETC model on resampled data and evaluating...
+2025-08-09 15:27:04,453 - INFO - 
+--- Performance for ETC ---
+2025-08-09 15:27:04,454 - INFO - Accuracy: 0.9749
+2025-08-09 15:27:04,455 - INFO - Precision (Spam): 0.9200
+2025-08-09 15:27:04,456 - INFO - Recall (Spam): 0.8779
+2025-08-09 15:27:04,457 - INFO - F1-Score (Spam): 0.8984
+2025-08-09 15:27:04,468 - INFO - 
+Full Classification Report for ETC:
+              precision    recall  f1-score   support
+
+         ham       0.98      0.99      0.99       903
+        spam       0.92      0.88      0.90       131
+
+    accuracy                           0.97      1034
+   macro avg       0.95      0.93      0.94      1034
+weighted avg       0.97      0.97      0.97      1034
+
+2025-08-09 15:27:04,471 - INFO - 
+Raw Confusion Matrix for ETC:
+[[893  10]
+ [ 16 115]]
+2025-08-09 15:27:04,589 - INFO - Confusion matrix plot for ETC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_ETC_20250809_152347.png.
+2025-08-09 15:27:04,589 - INFO - Training final GBDT model on resampled data and evaluating...
+2025-08-09 15:29:18,224 - INFO - 
+--- Performance for GBDT ---
+2025-08-09 15:29:18,225 - INFO - Accuracy: 0.9836
+2025-08-09 15:29:18,226 - INFO - Precision (Spam): 0.9318
+2025-08-09 15:29:18,226 - INFO - Recall (Spam): 0.9389
+2025-08-09 15:29:18,227 - INFO - F1-Score (Spam): 0.9354
+2025-08-09 15:29:18,233 - INFO - 
+Full Classification Report for GBDT:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.93      0.94      0.94       131
+
+    accuracy                           0.98      1034
+   macro avg       0.96      0.96      0.96      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-09 15:29:18,235 - INFO - 
+Raw Confusion Matrix for GBDT:
+[[894   9]
+ [  8 123]]
+2025-08-09 15:29:18,323 - INFO - Confusion matrix plot for GBDT saved to /home/dev/spam_classifier_project/plots/confusion_matrix_GBDT_20250809_152347.png.
+2025-08-09 15:29:18,323 - INFO - Training final DT model on resampled data and evaluating...
+2025-08-09 15:29:20,585 - INFO - 
+--- Performance for DT ---
+2025-08-09 15:29:20,586 - INFO - Accuracy: 0.9381
+2025-08-09 15:29:20,586 - INFO - Precision (Spam): 0.6982
+2025-08-09 15:29:20,587 - INFO - Recall (Spam): 0.9008
+2025-08-09 15:29:20,588 - INFO - F1-Score (Spam): 0.7867
+2025-08-09 15:29:20,594 - INFO - 
+Full Classification Report for DT:
+              precision    recall  f1-score   support
+
+         ham       0.98      0.94      0.96       903
+        spam       0.70      0.90      0.79       131
+
+    accuracy                           0.94      1034
+   macro avg       0.84      0.92      0.88      1034
+weighted avg       0.95      0.94      0.94      1034
+
+2025-08-09 15:29:20,595 - INFO - 
+Raw Confusion Matrix for DT:
+[[852  51]
+ [ 13 118]]
+2025-08-09 15:29:20,680 - INFO - Confusion matrix plot for DT saved to /home/dev/spam_classifier_project/plots/confusion_matrix_DT_20250809_152347.png.
+2025-08-09 15:29:20,680 - INFO - Training final Voting model on resampled data and evaluating...
+2025-08-09 15:29:29,797 - INFO - 
+--- Performance for Voting ---
+2025-08-09 15:29:29,798 - INFO - Accuracy: 0.9913
+2025-08-09 15:29:29,798 - INFO - Precision (Spam): 0.9919
+2025-08-09 15:29:29,799 - INFO - Recall (Spam): 0.9389
+2025-08-09 15:29:29,799 - INFO - F1-Score (Spam): 0.9647
+2025-08-09 15:29:29,806 - INFO - 
+Full Classification Report for Voting:
+              precision    recall  f1-score   support
+
+         ham       0.99      1.00      1.00       903
+        spam       0.99      0.94      0.96       131
+
+    accuracy                           0.99      1034
+   macro avg       0.99      0.97      0.98      1034
+weighted avg       0.99      0.99      0.99      1034
+
+2025-08-09 15:29:29,808 - INFO - 
+Raw Confusion Matrix for Voting:
+[[902   1]
+ [  8 123]]
+2025-08-09 15:29:29,893 - INFO - Confusion matrix plot for Voting saved to /home/dev/spam_classifier_project/plots/confusion_matrix_Voting_20250809_152347.png.
+2025-08-09 15:29:29,895 - INFO - 
+--- Overall Best Model Identified: Voting (F1-Score on Spam: 0.9647) ---
+2025-08-09 15:29:29,896 - INFO - All model evaluations completed.
+2025-08-09 15:29:29,923 - INFO - Best performing model (Voting) saved to /home/dev/spam_classifier_project/models/best_model_Voting_20250809_152929.pkl
+2025-08-09 15:29:30,281 - INFO - Model performance comparison plot saved to /home/dev/spam_classifier_project/plots/model_performance_comparison_20250809_152347.png.
+2025-08-09 15:29:30,282 - INFO - --- Completed Pipeline Step: Final Model Training & Evaluation ---
+
+2025-08-09 15:29:30,282 - INFO - Spam classification pipeline completed successfully.
+2025-08-09 15:29:30,283 - INFO - 
+=== Spam Classification Pipeline Completed Successfully ===
+2025-08-09 15:29:30,283 - INFO - Overall Model Performance Summary (Sorted by F1-Score on Spam):
+2025-08-09 15:29:30,286 - INFO - 
+Best Performing Model Identified: Voting
+2025-08-09 15:29:30,287 - INFO - Check '/home/dev/spam_classifier_project/plots' for EDA and Confusion Matrix plots.
+2025-08-09 15:29:30,287 - INFO - Check '/home/dev/spam_classifier_project/models' for the saved best model.
+2025-08-09 15:29:30,288 - INFO - 
+--- Demonstrating Model Inference from Saved Model ---
+2025-08-09 15:29:30,289 - INFO - Attempting to load the latest best model from: /home/dev/spam_classifier_project/models/best_model_Voting_20250809_152929.pkl
+2025-08-09 15:29:30,314 - INFO - NLTK punkt resource found.
+2025-08-09 15:29:30,314 - INFO - NLTK stopwords resource found.
+2025-08-09 15:29:30,315 - INFO - NLTK punkt_tab resource found.
+2025-08-09 15:29:30,316 - INFO - Initialized all individual and ensemble classifiers.
+2025-08-09 15:29:30,316 - INFO - SpamClassifier initialized successfully.
+2025-08-09 15:29:30,317 - INFO - Loading SentenceTransformer by name: 'all-MiniLM-L6-v2'
+2025-08-09 15:29:30,318 - INFO - Use pytorch device_name: cpu
+2025-08-09 15:29:30,319 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-09 15:29:40,424 - CRITICAL - Failed to load model for inference from /home/dev/spam_classifier_project/models/best_model_Voting_20250809_152929.pkl: (MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=False&expand=False (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7695f34a08c0>: Failed to resolve \'huggingface.co\' ([Errno -2] Name or service not known)"))'), '(Request ID: 1b748934-b016-4568-8837-35bbd80b7d50)')
+2025-08-09 15:29:40,425 - ERROR - An error occurred during the inference demonstration: (MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=False&expand=False (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7695f34a08c0>: Failed to resolve \'huggingface.co\' ([Errno -2] Name or service not known)"))'), '(Request ID: 1b748934-b016-4568-8837-35bbd80b7d50)')
+2025-08-11 15:27:02,647 - INFO - NLTK punkt resource found.
+2025-08-11 15:27:02,649 - INFO - NLTK stopwords resource found.
+2025-08-11 15:27:02,650 - INFO - NLTK punkt_tab resource found.
+2025-08-11 15:27:02,652 - INFO - Initialized all individual and ensemble classifiers.
+2025-08-11 15:27:02,652 - INFO - SpamClassifier initialized successfully.
+2025-08-11 15:27:02,654 - INFO - 
+--- Starting Pipeline Step: Data Loading ---
+2025-08-11 15:27:02,667 - INFO - Loaded 5572 records from /home/dev/spam_classifier_project/spam.csv.
+2025-08-11 15:27:02,668 - INFO - --- Completed Pipeline Step: Data Loading ---
+
+2025-08-11 15:27:02,669 - INFO - 
+--- Starting Pipeline Step: Data Cleaning ---
+2025-08-11 15:27:02,674 - INFO - Selected 'v1' and 'v2' columns from the dataset.
+2025-08-11 15:27:02,869 - INFO - Cleaned dataset. Removed 403 duplicates/nulls. Remaining: 5169 records.
+2025-08-11 15:27:02,870 - INFO - --- Completed Pipeline Step: Data Cleaning ---
+
+2025-08-11 15:27:02,871 - INFO - 
+--- Starting Pipeline Step: EDA and Feature Engineering ---
+2025-08-11 15:27:03,596 - INFO - Set XGBoost scale_pos_weight to: 6.92 (Ham:4516, Spam:653)
+2025-08-11 15:27:03,718 - INFO - Target distribution plot saved to /home/dev/spam_classifier_project/plots/target_distribution_20250811_152703.png.
+2025-08-11 15:27:04,224 - INFO - Word count distribution plot saved to /home/dev/spam_classifier_project/plots/word_count_distribution_20250811_152703.png.
+2025-08-11 15:27:04,695 - INFO - Character count distribution plot saved to /home/dev/spam_classifier_project/plots/char_count_distribution_20250811_152703.png.
+2025-08-11 15:27:04,934 - INFO - Correlation heatmap plot saved to /home/dev/spam_classifier_project/plots/correlation_heatmap_20250811_152703.png.
+2025-08-11 15:27:04,945 - INFO - Descriptive statistics for Ham emails:
+         num_chars    num_words  num_sentences
+count  4516.000000  4516.000000    4516.000000
+mean     70.459256    13.908769       1.820195
+std      56.358207    10.835081       1.383657
+min       2.000000     0.000000       1.000000
+25%      34.000000     7.000000       1.000000
+50%      52.000000    10.500000       1.000000
+75%      90.000000    18.000000       2.000000
+max     910.000000   162.000000      38.000000
+2025-08-11 15:27:04,956 - INFO - Descriptive statistics for Spam emails:
+        num_chars   num_words  num_sentences
+count  653.000000  653.000000     653.000000
+mean   137.891271   22.166922       2.970904
+std     30.137753    5.926027       1.488425
+min     13.000000    1.000000       1.000000
+25%    132.000000   19.000000       2.000000
+50%    149.000000   24.000000       3.000000
+75%    157.000000   26.000000       4.000000
+max    224.000000   34.000000       9.000000
+2025-08-11 15:27:04,957 - INFO - --- Completed Pipeline Step: EDA and Feature Engineering ---
+
+2025-08-11 15:27:04,958 - INFO - 
+--- Starting Pipeline Step: Text Preprocessing for EDA ---
+2025-08-11 15:27:04,959 - INFO - 
+--- Text Preprocessing for EDA and Visualizations ---
+2025-08-11 15:27:06,905 - INFO - Text transformation for EDA complete. Example:
+2025-08-11 15:27:06,908 - INFO - 
+                                                                                                                                                          text                                                                                                               transformed_text
+0                                              Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...                                                       go jurong point crazi avail bugi great world la buffet cine got amor wat
+1                                                                                                                                Ok lar... Joking wif u oni...                                                                                                            ok lar joke wif oni
+2  Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's  free entri 2 wkli comp win fa cup final tkt 21st may text fa 87121 receiv entri question std txt rate appli 08452810075over18
+3                                                                                                            U dun say so early hor... U c already then say...                                                                                                  dun say earli hor alreadi say
+4                                                                                                Nah I don't think he goes to usf, he lives around here though                                                                                           nah think goe usf live around though
+2025-08-11 15:27:06,909 - INFO - 
+Generating Word Clouds (saved to plots directory):
+2025-08-11 15:27:07,651 - INFO - Spam word cloud saved to /home/dev/spam_classifier_project/plots/spam_wordcloud_20250811_152706.png.
+2025-08-11 15:27:08,664 - INFO - Ham word cloud saved to /home/dev/spam_classifier_project/plots/ham_wordcloud_20250811_152706.png.
+2025-08-11 15:27:08,665 - INFO - 
+Most common words in Spam (saved as plot):
+2025-08-11 15:27:09,129 - INFO - Plot 'Top 30 Spam Words' saved to /home/dev/spam_classifier_project/plots/top_spam_words_20250811_152706.png.
+2025-08-11 15:27:09,129 - INFO - 
+Most common words in Ham (saved as plot):
+2025-08-11 15:27:09,648 - INFO - Plot 'Top 30 Ham Words' saved to /home/dev/spam_classifier_project/plots/top_ham_words_20250811_152706.png.
+2025-08-11 15:27:09,650 - INFO - --- Completed Pipeline Step: Text Preprocessing for EDA ---
+
+2025-08-11 15:27:09,650 - INFO - 
+--- Starting Pipeline Step: Text Vectorization (Embeddings) ---
+2025-08-11 15:27:09,652 - INFO - 
+--- Text Vectorization (SentenceTransformer: all-MiniLM-L6-v2) ---
+2025-08-11 15:27:10,151 - INFO - Use pytorch device_name: cpu
+2025-08-11 15:27:10,152 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-11 15:27:49,719 - INFO - SentenceTransformer embedding complete. X shape: (5169, 384), Y shape: (5169,).
+2025-08-11 15:27:49,720 - INFO - --- Completed Pipeline Step: Text Vectorization (Embeddings) ---
+
+2025-08-11 15:27:49,721 - INFO - 
+--- Starting Pipeline Step: Data Splitting ---
+2025-08-11 15:27:49,727 - INFO - Data split: Train 4135 samples, Test 1034 samples.
+2025-08-11 15:27:49,728 - INFO - Train target distribution: [3613  522]
+2025-08-11 15:27:49,729 - INFO - Test target distribution: [903 131]
+2025-08-11 15:27:49,730 - INFO - --- Completed Pipeline Step: Data Splitting ---
+
+2025-08-11 15:27:49,731 - INFO - 
+--- Starting Pipeline Step: Hyperparameter Tuning ---
+2025-08-11 15:27:49,731 - INFO - Starting hyperparameter tuning with Optuna for selected models...
+2025-08-11 15:27:49,732 - INFO - Tuning LR model with 15 trials...
+2025-08-11 15:28:18,978 - INFO - Best parameters for LR: {'C': 9.877700294007917, 'solver': 'liblinear'}
+2025-08-11 15:28:18,980 - INFO - Best cross-validated F1-score for LR: 0.9358
+2025-08-11 15:28:18,981 - INFO - Tuning RF model with 15 trials...
+2025-08-11 15:33:47,071 - INFO - Best parameters for RF: {'n_estimators': 258, 'max_depth': 7, 'min_samples_split': 5, 'min_samples_leaf': 2}
+2025-08-11 15:33:47,072 - INFO - Best cross-validated F1-score for RF: 0.9171
+2025-08-11 15:33:47,073 - INFO - Tuning XGB model with 15 trials...
+2025-08-11 15:39:35,529 - INFO - Best parameters for XGB: {'n_estimators': 102, 'max_depth': 7, 'learning_rate': 0.2197325710169943, 'subsample': 0.610547233762323, 'colsample_bytree': 0.7874820875551369, 'gamma': 6.7169034639277175e-06}
+2025-08-11 15:39:35,531 - INFO - Best cross-validated F1-score for XGB: 0.9265
+2025-08-11 15:39:35,532 - INFO - Tuning SVC model with 15 trials...
+2025-08-11 16:03:00,243 - INFO - Best parameters for SVC: {'C': 64.64947866087911, 'gamma': 0.024218157448679556, 'kernel': 'sigmoid'}
+2025-08-11 16:03:00,244 - INFO - Best cross-validated F1-score for SVC: 0.9425
+2025-08-11 16:03:00,246 - INFO - Tuning ETC model with 15 trials...
+2025-08-11 16:04:18,087 - INFO - Best parameters for ETC: {'n_estimators': 258, 'max_depth': 7, 'min_samples_split': 5, 'min_samples_leaf': 2}
+2025-08-11 16:04:18,088 - INFO - Best cross-validated F1-score for ETC: 0.9192
+2025-08-11 16:04:18,090 - INFO - Hyperparameter tuning completed for all selected models.
+2025-08-11 16:04:18,091 - INFO - --- Completed Pipeline Step: Hyperparameter Tuning ---
+
+2025-08-11 16:04:18,092 - INFO - 
+--- Starting Pipeline Step: Final Model Training & Evaluation ---
+2025-08-11 16:04:18,092 - INFO - Applying SMOTE to the entire training data for final model training...
+2025-08-11 16:04:18,189 - INFO - SMOTE applied. Original train: 4135 samples. Resampled train: 7226 samples.
+2025-08-11 16:04:18,190 - INFO - Training final LR model on resampled data and evaluating...
+2025-08-11 16:04:19,046 - INFO - 
+--- Performance for LR ---
+2025-08-11 16:04:19,046 - INFO - Accuracy: 0.9787
+2025-08-11 16:04:19,047 - INFO - Precision (Spam): 0.8978
+2025-08-11 16:04:19,047 - INFO - Recall (Spam): 0.9389
+2025-08-11 16:04:19,048 - INFO - F1-Score (Spam): 0.9179
+2025-08-11 16:04:19,055 - INFO - 
+Full Classification Report for LR:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.98      0.99       903
+        spam       0.90      0.94      0.92       131
+
+    accuracy                           0.98      1034
+   macro avg       0.94      0.96      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:04:19,058 - INFO - 
+Raw Confusion Matrix for LR:
+[[889  14]
+ [  8 123]]
+2025-08-11 16:04:19,169 - INFO - Confusion matrix plot for LR saved to /home/dev/spam_classifier_project/plots/confusion_matrix_LR_20250811_160418.png.
+2025-08-11 16:04:19,170 - INFO - Training final RF model on resampled data and evaluating...
+2025-08-11 16:04:25,399 - INFO - 
+--- Performance for RF ---
+2025-08-11 16:04:25,400 - INFO - Accuracy: 0.9826
+2025-08-11 16:04:25,400 - INFO - Precision (Spam): 0.9593
+2025-08-11 16:04:25,401 - INFO - Recall (Spam): 0.9008
+2025-08-11 16:04:25,401 - INFO - F1-Score (Spam): 0.9291
+2025-08-11 16:04:25,410 - INFO - 
+Full Classification Report for RF:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.96      0.90      0.93       131
+
+    accuracy                           0.98      1034
+   macro avg       0.97      0.95      0.96      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:04:25,412 - INFO - 
+Raw Confusion Matrix for RF:
+[[898   5]
+ [ 13 118]]
+2025-08-11 16:04:25,527 - INFO - Confusion matrix plot for RF saved to /home/dev/spam_classifier_project/plots/confusion_matrix_RF_20250811_160418.png.
+2025-08-11 16:04:25,528 - INFO - Training final XGB model on resampled data and evaluating...
+2025-08-11 16:04:34,650 - INFO - 
+--- Performance for XGB ---
+2025-08-11 16:04:34,651 - INFO - Accuracy: 0.9845
+2025-08-11 16:04:34,651 - INFO - Precision (Spam): 0.9389
+2025-08-11 16:04:34,652 - INFO - Recall (Spam): 0.9389
+2025-08-11 16:04:34,652 - INFO - F1-Score (Spam): 0.9389
+2025-08-11 16:04:34,664 - INFO - 
+Full Classification Report for XGB:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.94      0.94      0.94       131
+
+    accuracy                           0.98      1034
+   macro avg       0.97      0.97      0.97      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:04:34,667 - INFO - 
+Raw Confusion Matrix for XGB:
+[[895   8]
+ [  8 123]]
+2025-08-11 16:04:34,807 - INFO - Confusion matrix plot for XGB saved to /home/dev/spam_classifier_project/plots/confusion_matrix_XGB_20250811_160418.png.
+2025-08-11 16:04:34,808 - INFO - Training final SVC model on resampled data and evaluating...
+2025-08-11 16:04:43,688 - INFO - 
+--- Performance for SVC ---
+2025-08-11 16:04:43,689 - INFO - Accuracy: 0.9855
+2025-08-11 16:04:43,690 - INFO - Precision (Spam): 0.9394
+2025-08-11 16:04:43,690 - INFO - Recall (Spam): 0.9466
+2025-08-11 16:04:43,691 - INFO - F1-Score (Spam): 0.9430
+2025-08-11 16:04:43,699 - INFO - 
+Full Classification Report for SVC:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.94      0.95      0.94       131
+
+    accuracy                           0.99      1034
+   macro avg       0.97      0.97      0.97      1034
+weighted avg       0.99      0.99      0.99      1034
+
+2025-08-11 16:04:43,701 - INFO - 
+Raw Confusion Matrix for SVC:
+[[895   8]
+ [  7 124]]
+2025-08-11 16:04:43,805 - INFO - Confusion matrix plot for SVC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_SVC_20250811_160418.png.
+2025-08-11 16:04:43,806 - INFO - Training final KN model on resampled data and evaluating...
+2025-08-11 16:04:43,943 - INFO - 
+--- Performance for KN ---
+2025-08-11 16:04:43,944 - INFO - Accuracy: 0.7611
+2025-08-11 16:04:43,944 - INFO - Precision (Spam): 0.3466
+2025-08-11 16:04:43,945 - INFO - Recall (Spam): 1.0000
+2025-08-11 16:04:43,945 - INFO - F1-Score (Spam): 0.5147
+2025-08-11 16:04:43,953 - INFO - 
+Full Classification Report for KN:
+              precision    recall  f1-score   support
+
+         ham       1.00      0.73      0.84       903
+        spam       0.35      1.00      0.51       131
+
+    accuracy                           0.76      1034
+   macro avg       0.67      0.86      0.68      1034
+weighted avg       0.92      0.76      0.80      1034
+
+2025-08-11 16:04:43,955 - INFO - 
+Raw Confusion Matrix for KN:
+[[656 247]
+ [  0 131]]
+2025-08-11 16:04:44,048 - INFO - Confusion matrix plot for KN saved to /home/dev/spam_classifier_project/plots/confusion_matrix_KN_20250811_160418.png.
+2025-08-11 16:04:44,048 - INFO - Training final AdaBoost model on resampled data and evaluating...
+2025-08-11 16:05:32,563 - INFO - 
+--- Performance for AdaBoost ---
+2025-08-11 16:05:32,565 - INFO - Accuracy: 0.9758
+2025-08-11 16:05:32,565 - INFO - Precision (Spam): 0.8681
+2025-08-11 16:05:32,566 - INFO - Recall (Spam): 0.9542
+2025-08-11 16:05:32,567 - INFO - F1-Score (Spam): 0.9091
+2025-08-11 16:05:32,574 - INFO - 
+Full Classification Report for AdaBoost:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.98      0.99       903
+        spam       0.87      0.95      0.91       131
+
+    accuracy                           0.98      1034
+   macro avg       0.93      0.97      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:05:32,575 - INFO - 
+Raw Confusion Matrix for AdaBoost:
+[[884  19]
+ [  6 125]]
+2025-08-11 16:05:32,667 - INFO - Confusion matrix plot for AdaBoost saved to /home/dev/spam_classifier_project/plots/confusion_matrix_AdaBoost_20250811_160418.png.
+2025-08-11 16:05:32,667 - INFO - Training final BgC model on resampled data and evaluating...
+2025-08-11 16:07:41,243 - INFO - 
+--- Performance for BgC ---
+2025-08-11 16:07:41,245 - INFO - Accuracy: 0.9787
+2025-08-11 16:07:41,246 - INFO - Precision (Spam): 0.9291
+2025-08-11 16:07:41,248 - INFO - Recall (Spam): 0.9008
+2025-08-11 16:07:41,250 - INFO - F1-Score (Spam): 0.9147
+2025-08-11 16:07:41,281 - INFO - 
+Full Classification Report for BgC:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.93      0.90      0.91       131
+
+    accuracy                           0.98      1034
+   macro avg       0.96      0.95      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:07:41,291 - INFO - 
+Raw Confusion Matrix for BgC:
+[[894   9]
+ [ 13 118]]
+2025-08-11 16:07:41,560 - INFO - Confusion matrix plot for BgC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_BgC_20250811_160418.png.
+2025-08-11 16:07:41,561 - INFO - Training final ETC model on resampled data and evaluating...
+2025-08-11 16:07:43,104 - INFO - 
+--- Performance for ETC ---
+2025-08-11 16:07:43,105 - INFO - Accuracy: 0.9749
+2025-08-11 16:07:43,106 - INFO - Precision (Spam): 0.9200
+2025-08-11 16:07:43,108 - INFO - Recall (Spam): 0.8779
+2025-08-11 16:07:43,109 - INFO - F1-Score (Spam): 0.8984
+2025-08-11 16:07:43,136 - INFO - 
+Full Classification Report for ETC:
+              precision    recall  f1-score   support
+
+         ham       0.98      0.99      0.99       903
+        spam       0.92      0.88      0.90       131
+
+    accuracy                           0.97      1034
+   macro avg       0.95      0.93      0.94      1034
+weighted avg       0.97      0.97      0.97      1034
+
+2025-08-11 16:07:43,140 - INFO - 
+Raw Confusion Matrix for ETC:
+[[893  10]
+ [ 16 115]]
+2025-08-11 16:07:43,341 - INFO - Confusion matrix plot for ETC saved to /home/dev/spam_classifier_project/plots/confusion_matrix_ETC_20250811_160418.png.
+2025-08-11 16:07:43,342 - INFO - Training final GBDT model on resampled data and evaluating...
+2025-08-11 16:11:25,070 - INFO - 
+--- Performance for GBDT ---
+2025-08-11 16:11:25,071 - INFO - Accuracy: 0.9836
+2025-08-11 16:11:25,072 - INFO - Precision (Spam): 0.9318
+2025-08-11 16:11:25,073 - INFO - Recall (Spam): 0.9389
+2025-08-11 16:11:25,074 - INFO - F1-Score (Spam): 0.9354
+2025-08-11 16:11:25,087 - INFO - 
+Full Classification Report for GBDT:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       903
+        spam       0.93      0.94      0.94       131
+
+    accuracy                           0.98      1034
+   macro avg       0.96      0.96      0.96      1034
+weighted avg       0.98      0.98      0.98      1034
+
+2025-08-11 16:11:25,090 - INFO - 
+Raw Confusion Matrix for GBDT:
+[[894   9]
+ [  8 123]]
+2025-08-11 16:11:25,243 - INFO - Confusion matrix plot for GBDT saved to /home/dev/spam_classifier_project/plots/confusion_matrix_GBDT_20250811_160418.png.
+2025-08-11 16:11:25,244 - INFO - Training final DT model on resampled data and evaluating...
+2025-08-11 16:11:29,233 - INFO - 
+--- Performance for DT ---
+2025-08-11 16:11:29,234 - INFO - Accuracy: 0.9381
+2025-08-11 16:11:29,235 - INFO - Precision (Spam): 0.6982
+2025-08-11 16:11:29,236 - INFO - Recall (Spam): 0.9008
+2025-08-11 16:11:29,236 - INFO - F1-Score (Spam): 0.7867
+2025-08-11 16:11:29,249 - INFO - 
+Full Classification Report for DT:
+              precision    recall  f1-score   support
+
+         ham       0.98      0.94      0.96       903
+        spam       0.70      0.90      0.79       131
+
+    accuracy                           0.94      1034
+   macro avg       0.84      0.92      0.88      1034
+weighted avg       0.95      0.94      0.94      1034
+
+2025-08-11 16:11:29,252 - INFO - 
+Raw Confusion Matrix for DT:
+[[852  51]
+ [ 13 118]]
+2025-08-11 16:11:29,402 - INFO - Confusion matrix plot for DT saved to /home/dev/spam_classifier_project/plots/confusion_matrix_DT_20250811_160418.png.
+2025-08-11 16:11:29,403 - INFO - Training final Voting model on resampled data and evaluating...
+2025-08-11 16:11:43,124 - INFO - 
+--- Performance for Voting ---
+2025-08-11 16:11:43,126 - INFO - Accuracy: 0.9913
+2025-08-11 16:11:43,127 - INFO - Precision (Spam): 0.9919
+2025-08-11 16:11:43,130 - INFO - Recall (Spam): 0.9389
+2025-08-11 16:11:43,131 - INFO - F1-Score (Spam): 0.9647
+2025-08-11 16:11:43,154 - INFO - 
+Full Classification Report for Voting:
+              precision    recall  f1-score   support
+
+         ham       0.99      1.00      1.00       903
+        spam       0.99      0.94      0.96       131
+
+    accuracy                           0.99      1034
+   macro avg       0.99      0.97      0.98      1034
+weighted avg       0.99      0.99      0.99      1034
+
+2025-08-11 16:11:43,159 - INFO - 
+Raw Confusion Matrix for Voting:
+[[902   1]
+ [  8 123]]
+2025-08-11 16:11:43,354 - INFO - Confusion matrix plot for Voting saved to /home/dev/spam_classifier_project/plots/confusion_matrix_Voting_20250811_160418.png.
+2025-08-11 16:11:43,357 - INFO - 
+--- Overall Best Model Identified: Voting (F1-Score on Spam: 0.9647) ---
+2025-08-11 16:11:43,358 - INFO - All model evaluations completed.
+2025-08-11 16:11:43,406 - INFO - Best performing model (Voting) saved to /home/dev/spam_classifier_project/models/best_model_Voting_20250811_161143.pkl
+2025-08-11 16:11:44,051 - INFO - Model performance comparison plot saved to /home/dev/spam_classifier_project/plots/model_performance_comparison_20250811_160418.png.
+2025-08-11 16:11:44,052 - INFO - --- Completed Pipeline Step: Final Model Training & Evaluation ---
+
+2025-08-11 16:11:44,053 - INFO - Spam classification pipeline completed successfully.
+2025-08-11 16:11:44,054 - INFO - 
+=== Spam Classification Pipeline Completed Successfully ===
+2025-08-11 16:11:44,055 - INFO - Overall Model Performance Summary (Sorted by F1-Score on Spam):
+2025-08-11 16:11:44,060 - INFO - 
+Best Performing Model Identified: Voting
+2025-08-11 16:11:44,061 - INFO - Check '/home/dev/spam_classifier_project/plots' for EDA and Confusion Matrix plots.
+2025-08-11 16:11:44,062 - INFO - Check '/home/dev/spam_classifier_project/models' for the saved best model.
+2025-08-11 16:11:44,063 - INFO - 
+--- Demonstrating Model Inference from Saved Model ---
+2025-08-11 16:11:44,066 - INFO - Attempting to load the latest best model from: /home/dev/spam_classifier_project/models/best_model_Voting_20250811_161143.pkl
+2025-08-11 16:11:44,108 - INFO - NLTK punkt resource found.
+2025-08-11 16:11:44,109 - INFO - NLTK stopwords resource found.
+2025-08-11 16:11:44,110 - INFO - NLTK punkt_tab resource found.
+2025-08-11 16:11:44,112 - INFO - Initialized all individual and ensemble classifiers.
+2025-08-11 16:11:44,113 - INFO - SpamClassifier initialized successfully.
+2025-08-11 16:11:44,114 - INFO - Loading SentenceTransformer by name: 'all-MiniLM-L6-v2'
+2025-08-11 16:11:44,117 - INFO - Use pytorch device_name: cpu
+2025-08-11 16:11:44,117 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-11 16:11:49,946 - INFO - Model 'Voting' loaded successfully from /home/dev/spam_classifier_project/models/best_model_Voting_20250811_161143.pkl for inference.
